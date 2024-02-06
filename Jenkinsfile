@@ -12,6 +12,7 @@ pipeline {
         DOCKER_IMAGE_NAME = "mox-test:${TAG_VERSION}" // Set Docker image name with dynamic tag
         // DOCKER_IMAGE_NAME = "mox-test"
         REMOTE_SERVER = "98.70.91.102"
+        DOCKER_CONTAINER_NAME = "mox-backend"
         //REMOTE_DIRECTORY = "/home/devops/${BUILD_ID}" // Create a unique directory for each build
         REMOTE_DIRECTORY = "/home/devops/mox"
     }
@@ -37,9 +38,9 @@ pipeline {
                         // Clone repository into the directory and build Docker container
                         sh "ssh -o StrictHostKeyChecking=no devops@${REMOTE_SERVER} 'git clone https://github.com/akshayraina999/node-hello.git ${REMOTE_DIRECTORY}/hello-node && cd ${REMOTE_DIRECTORY}/hello-node && docker build -t ${DOCKER_IMAGE_NAME} .'"
                         // Stop and remove the previous container if it exists
-                        sh "ssh -o StrictHostKeyChecking=no devops@${REMOTE_SERVER} 'docker stop ${DOCKER_IMAGE_NAME}_container && docker rm ${DOCKER_IMAGE_NAME}_container || true'"
+                        sh "ssh -o StrictHostKeyChecking=no devops@${REMOTE_SERVER} 'docker stop ${DOCKER_CONTAINER_NAME} && docker rm ${DOCKER_CONTAINER_NAME} || true'"
                         // Spin up the new container
-                        sh "ssh -o StrictHostKeyChecking=no devops@${REMOTE_SERVER} 'docker run -d --name ${DOCKER_IMAGE_NAME}_container -p 8080:80 ${DOCKER_IMAGE_NAME}'"
+                        sh "ssh -o StrictHostKeyChecking=no devops@${REMOTE_SERVER} 'docker run -d --name ${DOCKER_CONTAINER_NAME} -p 8080:80 ${DOCKER_IMAGE_NAME}'"
                     }
                 }
             }
