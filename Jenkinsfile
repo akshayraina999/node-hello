@@ -7,7 +7,10 @@ pipeline {
 
     environment {
         // Define variables as needed
-        DOCKER_IMAGE_NAME = "mox-test"
+        BUILD_NUMBER = env.BUILD_NUMBER.toInteger()  // Get the build number
+        TAG_VERSION = "${(BUILD_NUMBER / 20) + 1}.${BUILD_NUMBER % 20 ?: 20}" // Calculate tag version
+        DOCKER_IMAGE_NAME = "mox-test:${TAG_VERSION}" // Set Docker image name with dynamic tag
+        // DOCKER_IMAGE_NAME = "mox-test"
         REMOTE_SERVER = "98.70.91.102"
         //REMOTE_DIRECTORY = "/home/devops/${BUILD_ID}" // Create a unique directory for each build
         REMOTE_DIRECTORY = "/home/devops/mox"
