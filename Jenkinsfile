@@ -45,15 +45,13 @@ pipeline {
                 }
             }
         }
-        stages {
-            stage('SonarQube analysis') {
-                tools {
-                    sonarQube 'sonar-scanner'
-                }
-                steps {
-                    withSonarQubeEnv('sonar-scanner') {
-                    sh 'sonar-scanner'
-                    }
+        stage('SonarQube analysis') {
+            tools {
+                sonarQube 'sonar-scanner'
+            }
+            steps {
+                withSonarQubeEnv('sonar-scanner') {
+                sh 'sonar-scanner'
                 }
             }
         }
