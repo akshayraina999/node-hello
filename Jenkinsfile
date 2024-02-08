@@ -56,7 +56,7 @@ pipeline {
                 -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
                 -D sonar.projectName=node-hello \
                 -D sonar.projectVersion=1.0 \
-                -D sonar.languages=js,ts \  // DEPRECATED, do not use this option
+                -D sonar.languages=js,ts \  
                 -D sonar.sources=. \
                 -D sonar.test.inclusions=**/node_modules/**,/coverage/lcov-report/*,test/*.js
                 '''
