@@ -44,10 +44,9 @@ pipeline {
             withSonarQubeEnv('sonar-server') {
                 sh '''
                 ${scannerHome}/bin/sonar-scanner \
-                // -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
-                -D sonar.projectKey=node-hello \
+                -D sonar.projectKey=node-hello-test \
                 -D sonar.projectName=node-hello \
-                -D sonar.login=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d" \
+                -D sonar.login=squ_4e738e91cc03be21239d3feeaeed4469be9c1e7b" \
                 -D sonar.projectVersion=1.0 \
                 -D sonar.sources=. \
                 -D sonar.host.url=http://98.70.91.102:9000 \
@@ -60,6 +59,7 @@ pipeline {
             //         withSonarQubeEnv('sonar-server') {
             //             sh "npm install sonar-scanner"
             //             sh "sonar-scanner \
+                            // -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
             //                 -Dsonar.projectKey=node-hello \
             //                 -Dsonar.projectName=node-hello \
             //                 -Dsonar.projectVersion=1.0 \
