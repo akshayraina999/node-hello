@@ -38,17 +38,26 @@ pipeline {
         //         '''
         //         }
         //     }
+            // steps {
+            //     script {
+            //         withSonarQubeEnv('sonar-server') {
+            //             sh "npm install sonar-scanner"
+            //             sh "sonar-scanner \
+            //                 -Dsonar.projectKey=node-hello \
+            //                 -Dsonar.projectName=node-hello \
+            //                 -Dsonar.projectVersion=1.0 \
+            //                 -Dsonar.sources=. \
+            //                 -Dsonar.host.url=http://98.70.91.102:9000 \
+            //                 -Dsonar.login=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d"
+            //         }
+            //     }
+            // }
             steps {
                 script {
                     withSonarQubeEnv('sonar-server') {
-                        sh "npm install sonar-scanner"
-                        sh "sonar-scanner \
-                            -Dsonar.projectKey=node-hello \
-                            -Dsonar.projectName=node-hello \
-                            -Dsonar.projectVersion=1.0 \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=http://98.70.91.102:9000 \
-                            -Dsonar.login=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d"
+                        def nodejsHome = tool 'node18'
+                        sh "${nodejsHome}/bin/npm install sonar-scanner"
+                        sh "${nodejsHome}/bin/npm run sonar"
                     }
                 }
             }
