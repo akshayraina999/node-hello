@@ -44,8 +44,10 @@ pipeline {
             withSonarQubeEnv('sonar-server') {
                 sh '''
                 ${scannerHome}/bin/sonar-scanner \
-                -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
+                // -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
+                -D sonar.projectKey=node-hello \
                 -D sonar.projectName=node-hello \
+                -D sonar.login=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d" \
                 -D sonar.projectVersion=1.0 \
                 -D sonar.sources=. \
                 -D sonar.host.url=http://98.70.91.102:9000 \
