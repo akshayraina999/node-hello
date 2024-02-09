@@ -46,7 +46,7 @@ pipeline {
                 ${scannerHome}/bin/sonar-scanner \
                 -D sonar.projectKey=node-hello-test \
                 -D sonar.projectName=node-hello \
-                -D sonar.login=squ_4e738e91cc03be21239d3feeaeed4469be9c1e7b" \
+                -D sonar.login=squ_4e738e91cc03be21239d3feeaeed4469be9c1e7b \
                 -D sonar.projectVersion=1.0 \
                 -D sonar.sources=. \
                 -D sonar.host.url=http://98.70.91.102:9000 \
