@@ -48,6 +48,7 @@ pipeline {
                 -D sonar.projectName=node-hello \
                 -D sonar.projectVersion=1.0 \
                 -D sonar.sources=. \
+                -D sonar.host.url=http://98.70.91.102:9000 \
                 -D sonar.test.inclusions=**/node_modules/**,/coverage/lcov-report/*,test/*.js
                 '''
                 }
