@@ -22,6 +22,24 @@ pipeline {
     // }
 
     stages {
+        stage('SonarQube analysis') {
+        environment {
+            scannerHome = tool 'sonar-server'
+        }
+        steps {
+            withSonarQubeEnv('Your Sonar Server Name here') {
+                sh '''
+                ${scannerHome}/bin/sonar-scanner \
+                -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
+                -D sonar.projectName=node-hello \
+                -D sonar.projectVersion=1.0 \
+                -D sonar.sources=. \
+                -D sonar.test.inclusions=**/node_modules/**,/coverage/lcov-report/*,test/*.js
+                '''
+                }
+            }
+        }
+        
         stage('Build and Run Docker Container on Remote Server') {
             // agent {
             //     label 'devops-test'
@@ -45,23 +63,6 @@ pipeline {
                 }
             }
         }
-        stage('SonarQube analysis') {
-        environment {
-            scannerHome = tool 'sonar-server'
-        }
-        steps {
-            withSonarQubeEnv('Your Sonar Server Name here') {
-                sh '''
-                ${scannerHome}/bin/sonar-scanner \
-                -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
-                -D sonar.projectName=node-hello \
-                -D sonar.projectVersion=1.0 \
-                -D sonar.sources=. \
-                -D sonar.test.inclusions=**/node_modules/**,/coverage/lcov-report/*,test/*.js
-                '''
-            }
-        }
-    }
     }
 
     post {
