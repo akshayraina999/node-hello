@@ -22,6 +22,20 @@ pipeline {
     // }
 
     stages {
+        stage('Setup Node.js and npm') {
+            steps {
+                script {
+                    // Install Node.js and npm
+                    sh 'curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -'
+                    sh 'sudo apt-get install -y nodejs'
+
+                    // Verify Node.js and npm installation
+                    sh 'node -v'
+                    sh 'npm -v'
+                }
+            }
+        }
+        
         stage('SonarQube analysis') {
         // environment {
         //     scannerHome = tool 'sonar-server'
