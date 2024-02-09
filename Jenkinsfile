@@ -22,36 +22,36 @@ pipeline {
     // }
 
     stages {
-        stage('Setup Node.js and npm') {
-            steps {
-                script {
-                    // Install Node.js and npm
-                    sh 'curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -'
-                    sh 'sudo apt-get install -y nodejs'
+        // stage('Setup Node.js and npm') {
+        //     steps {
+        //         script {
+        //             // Install Node.js and npm
+        //             sh 'curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -'
+        //             sh 'sudo apt-get install -y nodejs'
 
-                    // Verify Node.js and npm installation
-                    sh 'node -v'
-                    sh 'npm -v'
-                }
-            }
-        }
-        
-        stage('SonarQube analysis') {
-        // environment {
-        //     scannerHome = tool 'sonar-server'
-        // }
-        // steps {
-        //     withSonarQubeEnv('Your Sonar Server Name here') {
-        //         sh '''
-        //         ${scannerHome}/bin/sonar-scanner \
-        //         -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
-        //         -D sonar.projectName=node-hello \
-        //         -D sonar.projectVersion=1.0 \
-        //         -D sonar.sources=. \
-        //         -D sonar.test.inclusions=**/node_modules/**,/coverage/lcov-report/*,test/*.js
-        //         '''
+        //             // Verify Node.js and npm installation
+        //             sh 'node -v'
+        //             sh 'npm -v'
         //         }
         //     }
+        // }
+        
+        stage('SonarQube analysis') {
+        environment {
+            scannerHome = tool 'sonar-server'
+        }
+        steps {
+            withSonarQubeEnv('sonar-server') {
+                sh '''
+                ${scannerHome}/bin/sonar-scanner \
+                -D sonar.projectKey=sqp_e552dde081d43d5c7baf8798aa774230d5b7e53d \
+                -D sonar.projectName=node-hello \
+                -D sonar.projectVersion=1.0 \
+                -D sonar.sources=. \
+                -D sonar.test.inclusions=**/node_modules/**,/coverage/lcov-report/*,test/*.js
+                '''
+                }
+            }
             // steps {
             //     script {
             //         withSonarQubeEnv('sonar-server') {
@@ -66,15 +66,15 @@ pipeline {
             //         }
             //     }
             // }
-            steps {
-                script {
-                    withSonarQubeEnv('sonar-server') {
-                        def nodejsHome = tool 'node18'
-                        sh "${nodejsHome}/bin/npm install sonar-scanner"
-                        sh "${nodejsHome}/bin/npm run sonar"
-                    }
-                }
-            }
+            // steps {
+            //     script {
+            //         withSonarQubeEnv('sonar-server') {
+            //             def nodejsHome = tool 'node18'
+            //             sh "${nodejsHome}/bin/npm install sonar-scanner"
+            //             sh "${nodejsHome}/bin/npm run sonar"
+            //         }
+            //     }
+            // }
         }
         
         stage('Build and Run Docker Container on Remote Server') {
