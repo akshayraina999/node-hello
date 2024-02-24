@@ -106,6 +106,23 @@ pipeline {
     }
 
     post {
+        always {
+            // Fetch SonarQube report
+            script {
+                // def scanner = SonarQube.qualityGate()
+                def status = scanner['status']
+                // def conditions = scanner['conditions']
+                def projectName = scanner['node-hello']
+                def projectVersion = scanner['1.0']
+                
+                // Example: Sending report via email
+                // \nQuality Gate Status: ${status}\nConditions: ${conditions}
+                emailext body: "Project Name: ${projectName}\nProject Version: ${projectVersion}",
+                         subject: "SonarQube Analysis Report",
+                         to: "akshayraina999@gmail.com"
+            }
+        }
+        
         success {
             // Additional post-build actions if needed
             echo "Docker image built successfully on the remote server, and the container is running!"
