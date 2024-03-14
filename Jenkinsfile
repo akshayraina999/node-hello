@@ -78,7 +78,7 @@ pipeline {
             //         }
             //     }
             // }
-        }
+        //}
         
         stage('Build and Run Docker Container on Remote Server') {
             // agent {
