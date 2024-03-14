@@ -153,7 +153,7 @@ pipeline {
                         sh "curl -s -X POST https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage -d chat_id=${env.CHAT_ID} -d text='${env.MESSAGE_FAILURE}'"
                         // sh "curl -X POST -H 'Content-Type: application/json' -d '{\"text\": \"${env.MESSAGE_FAILURE}\"}' ${GOOGLE_CHAT_WEBHOOK}"
                         // sh "curl -X POST -H 'Content-Type: application/json' -d '{\"text\": \"${env.MESSAGE_FAILURE}\"}' '${GOOGLE_CHAT_WEBHOOK}'"
-                        googlechatnotification url: '${GOOGLE_CHAT_WEBHOOK}', message: "${env.MESSAGE_FAILURE}"
+                        googlechatnotification url: '${GOOGLE_CHAT_WEBHOOK}', message: "Build ${currentBuild.currentResult}"
                         // googlechatnotification url: '${GOOGLE_CHAT_WEBHOOK}', message: "Build ${currentBuild.currentResult}:\n Job ${env.JOB_NAME}\n build ${env.BUILD_NUMBER}\n last commit ```${env.GIT_LAST_COMMIT}```\n author *${env.GIT_LAST_AUTHOR}*\n Full details click on link: ${env.BUILD_URL}"
 
                     }
