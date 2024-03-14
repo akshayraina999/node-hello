@@ -15,7 +15,7 @@ pipeline {
         DOCKER_CONTAINER_NAME = "mox-backend"
         //REMOTE_DIRECTORY = "/home/devops/${BUILD_ID}" // Create a unique directory for each build
         REMOTE_DIRECTORY = "/home/devops/mox"
-        MESSAGE = "Build ${currentBuild.result}: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
+        MESSAGE = "Build ${currentBuild.currentResult}: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
         BOT_TOKEN = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
         CHAT_ID = '-4115461746'
     }
