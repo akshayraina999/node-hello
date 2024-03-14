@@ -36,24 +36,24 @@ pipeline {
         //     }
         // }
         
-        stage('SonarQube analysis') {
-        environment {
-            scannerHome = tool 'sonar-server'
-        }
-        steps {
-            withSonarQubeEnv('sonar-server') {
-                sh '''
-                ${scannerHome}/bin/sonar-scanner \
-                -D sonar.projectKey=node-hello-test \
-                -D sonar.projectName=node-hello \
-                -D sonar.login=squ_4e738e91cc03be21239d3feeaeed4469be9c1e7b \
-                -D sonar.projectVersion=1.0 \
-                -D sonar.sources=. \
-                -D sonar.host.url=http://98.70.91.102:9000 \
-                -D sonar.test.inclusions=**/node_modules/**,/coverage/lcov-report/*,test/*.js
-                '''
-                }
-            }
+        // stage('SonarQube analysis') {
+        // environment {
+        //     scannerHome = tool 'sonar-server'
+        // }
+        // steps {
+        //     withSonarQubeEnv('sonar-server') {
+        //         sh '''
+        //         ${scannerHome}/bin/sonar-scanner \
+        //         -D sonar.projectKey=node-hello-test \
+        //         -D sonar.projectName=node-hello \
+        //         -D sonar.login=squ_4e738e91cc03be21239d3feeaeed4469be9c1e7b \
+        //         -D sonar.projectVersion=1.0 \
+        //         -D sonar.sources=. \
+        //         -D sonar.host.url=http://98.70.91.102:9000 \
+        //         -D sonar.test.inclusions=**/node_modules/**,/coverage/lcov-report/*,test/*.js
+        //         '''
+        //         }
+        //     }
             // steps {
             //     script {
             //         withSonarQubeEnv('sonar-server') {
@@ -105,32 +105,50 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            // Fetch SonarQube report
-            script {
-                // def scanner = SonarQube.qualityGate()
-                def status = scanner['status']
-                // def conditions = scanner['conditions']
-                def projectName = scanner['node-hello']
-                def projectVersion = scanner['1.0']
+    // post {
+    //     always {
+    //         // Fetch SonarQube report
+    //         script {
+    //             // def scanner = SonarQube.qualityGate()
+    //             def status = scanner['status']
+    //             // def conditions = scanner['conditions']
+    //             def projectName = scanner['node-hello']
+    //             def projectVersion = scanner['1.0']
                 
-                // Example: Sending report via email
-                // \nQuality Gate Status: ${status}\nConditions: ${conditions}
-                emailext body: "Project Name: ${projectName}\nProject Version: ${projectVersion}",
-                         subject: "SonarQube Analysis Report",
-                         to: "akshayraina999@gmail.com"
-            }
-        }
+    //             // Example: Sending report via email
+    //             // \nQuality Gate Status: ${status}\nConditions: ${conditions}
+    //             emailext body: "Project Name: ${projectName}\nProject Version: ${projectVersion}",
+    //                      subject: "SonarQube Analysis Report",
+    //                      to: "akshayraina999@gmail.com"
+    //         }
+    //     }
         
-        success {
-            // Additional post-build actions if needed
-            echo "Docker image built successfully on the remote server, and the container is running!"
-        }
+    //     success {
+    //         // Additional post-build actions if needed
+    //         echo "Docker image built successfully on the remote server, and the container is running!"
+    //     }
 
-        failure {
-            // Actions to take in case of failure
-            echo "Build or deployment failed"
-        }
-    }
+    //     failure {
+    //         // Actions to take in case of failure
+    //         echo "Build or deployment failed"
+    //     }
+    // }
+    post {
+                success {
+                    script {
+                        def message = "Build successful: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
+                        def botToken = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
+                        def chatId = '2140323631'
+                        sh "curl -s -X POST https://api.telegram.org/bot${botToken}/sendMessage -d chat_id=${chatId} -d text='${message}'"
+                    }
+                }
+                failure {
+                    script {
+                        def message = "Build failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
+                        def botToken = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
+                        def chatId = '2140323631'
+                        sh "curl -s -X POST https://api.telegram.org/bot${botToken}/sendMessage -d chat_id=${chatId} -d text='${message}'"
+                    }
+                }
+            }
 }
