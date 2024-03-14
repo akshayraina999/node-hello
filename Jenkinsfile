@@ -146,7 +146,7 @@ pipeline {
                     script {
                         def message = "Build failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
                         def botToken = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
-                        def chatId = '2140323631'
+                        def chatId = '-4115461746'
                         sh "curl -s -X POST https://api.telegram.org/bot${botToken}/sendMessage -d chat_id=${chatId} -d text='${message}'"
                     }
                 }
