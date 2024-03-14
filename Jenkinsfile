@@ -15,6 +15,9 @@ pipeline {
         DOCKER_CONTAINER_NAME = "mox-backend"
         //REMOTE_DIRECTORY = "/home/devops/${BUILD_ID}" // Create a unique directory for each build
         REMOTE_DIRECTORY = "/home/devops/mox"
+        MESSAGE = "Build ${currentBuild.result}: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
+        BOT_TOKEN = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
+        CHAT_ID = '-4115461746'
     }
 
     // triggers {
@@ -136,18 +139,12 @@ pipeline {
     post {
                 success {
                     script {
-                        def message = "Build successful: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
-                        def botToken = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
-                        def chatId = '2140323631'
-                        sh "curl -s -X POST https://api.telegram.org/bot${botToken}/sendMessage -d chat_id=${chatId} -d text='${message}'"
+                        sh "curl -s -X POST https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage -d chat_id=${env.CHAT_ID} -d text='${env.MESSAGE}'"
                     }
                 }
                 failure {
                     script {
-                        def message = "Build failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
-                        def botToken = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
-                        def chatId = '-4115461746'
-                        sh "curl -s -X POST https://api.telegram.org/bot${botToken}/sendMessage -d chat_id=${chatId} -d text='${message}'"
+                        sh "curl -s -X POST https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage -d chat_id=${env.CHAT_ID} -d text='${env.MESSAGE}'"
                     }
                 }
             }
