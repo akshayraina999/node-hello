@@ -16,9 +16,9 @@ pipeline {
         //REMOTE_DIRECTORY = "/home/devops/${BUILD_ID}" // Create a unique directory for each build
         REMOTE_DIRECTORY = "/home/devops/mox"
         // MESSAGE = "Build ${currentBuild.currentResult}: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
-        BOT_TOKEN = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
+        // BOT_TOKEN = '6778676572:AAF3HJETKhOQ5Jp0J1OfffNJp4q9cxwemQk'
         GOOGLE_CHAT_WEBHOOK = 'https://chat.googleapis.com/v1/spaces/AAAA6pJbA5A/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=bc1PFPONavXPbScSqKoeYmN95HgNTMx1o-C9zL4fnz0'
-        CHAT_ID = '-4115461746'
+        // CHAT_ID = '-4115461746'
         MESSAGE_SUCCESS = "✅ Build Successful: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
         MESSAGE_FAILURE = "❌ Build Failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
     }
@@ -144,7 +144,7 @@ pipeline {
                     script {
                         // sh "curl -s -X POST https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage -d chat_id=${env.CHAT_ID} -d text='${env.MESSAGE}'"
                         sh "curl -s -X POST https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage -d chat_id=${env.CHAT_ID} -d text='${env.MESSAGE_SUCCESS}'"
-                        sh "curl -X POST -H 'Content-Type: application/json' -d '{\"text\": \"${env.MESSAGE_SUCCESS}\"}' ${GOOGLE_CHAT_WEBHOOK}"
+                        // sh "curl -X POST -H 'Content-Type: application/json' -d '{\"text\": \"${env.MESSAGE_SUCCESS}\"}' ${GOOGLE_CHAT_WEBHOOK}"
                     }
                 }
                 failure {
@@ -155,9 +155,9 @@ pipeline {
                         // sh "curl -X POST -H 'Content-Type: application/json' -d '{\"text\": \"${env.MESSAGE_FAILURE}\"}' '${GOOGLE_CHAT_WEBHOOK}'"
                         // googlechatnotification url: '${GOOGLE_CHAT_WEBHOOK}', message: "Build ${currentBuild.currentResult}"
                         // googlechatnotification url: '${GOOGLE_CHAT_WEBHOOK}', message: "Build ${currentBuild.currentResult}:\n Job ${env.JOB_NAME}\n build ${env.BUILD_NUMBER}\n last commit ```${env.GIT_LAST_COMMIT}```\n author *${env.GIT_LAST_AUTHOR}*\n Full details click on link: ${env.BUILD_URL}"
-                        configFileProvider([configFile(fileId: '9d792a84-6224-4529-aa30-2296e97df64e', targetLocation: 'google-chat-build-notification.json')]) {
-	def cardConfig = readJSON file: 'google-chat-build-notification.json'
-	googlechatnotification url: 'web hook(s) URL(s)', messageFormat: 'card', message: cardConfig.toString()
+                        // configFileProvider([configFile(fileId: '9d792a84-6224-4529-aa30-2296e97df64e', targetLocation: 'google-chat-build-notification.json')]) {
+	// def cardConfig = readJSON file: 'google-chat-build-notification.json'
+	// googlechatnotification url: 'web hook(s) URL(s)', messageFormat: 'card', message: cardConfig.toString()
 }
 
                     }
